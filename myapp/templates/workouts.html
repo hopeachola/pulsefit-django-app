@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseFit - Workouts</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <    <!-- Update the nav section in workouts.html if it contains a '#' link -->
+    <nav class="navbar">
+        <div class="logo">Pulse<span>Fit</span></div>
+        <ul class="nav-links">
+            <li><a href="{% url 'fitness_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'workouts_catalog' %}" class="active">Workouts</a></li>
+            <li><a href="{% url 'calorie_log' %}">Calorie Log</a></li>
+                    <!-- Append this list element right before </ul> inside your navbar headers -->
+        <li><a href="{% url 'logout' %}" style="color: #ef4444;">Logout 🚪</a></li>
+
+        </ul>
+    </nav>
+
+
+    <!-- Workouts Content Framework -->
+    <main class="dashboard-container">
+        <header class="welcome-banner">
+            <h1>Workout Library 🏋️‍♀️</h1>
+            <p>Choose a routine tailored to your fitness objectives.</p>
+        </header>
+
+        <!-- Category Grid displaying downloaded imagery frames -->
+        <section class="workout-catalog-grid">
+            
+            <!-- Card 1: Strength Training utilizing weights.jpg background -->
+            <div class="catalog-card">
+                <div class="catalog-header img-strength">
+                    <span class="catalog-badge">Strength</span>
+                </div>
+                <div class="catalog-body">
+                    <h3>Hypertrophy Upper Body</h3>
+                    <p>Build lean muscle structure with progressive overhead pressing and chest targeting cycles.</p>
+                    <div class="catalog-meta">
+                        <span>⏱ 45 mins</span>
+                        <span>🔥 320 kcal</span>
+                    </div>
+                    <!-- Hyperlink Router for Strength Circuit -->
+                    <a href="{% url 'launch_routine' 'strength' %}" class="action-btn" style="text-decoration: none;">Launch Routine</a>
+                </div>
+            </div>
+
+            <!-- Card 2: Cardio Engine utilizing cardio.jpg background -->
+            <div class="catalog-card">
+                <div class="catalog-header img-cardio">
+                    <span class="catalog-badge HIIT">HIIT Cardio</span>
+                </div>
+                <div class="catalog-body">
+                    <h3>Fat Burn Engine</h3>
+                    <p>High-volume circuit intervals alternating aerobic sprints with functional bodyweight recovery.</p>
+                    <div class="catalog-meta">
+                        <span>⏱ 25 mins</span>
+                        <span>🔥 410 kcal</span>
+                    </div>
+                    <!-- Hyperlink Router for Cardio Circuit -->
+                    <a href="{% url 'launch_routine' 'cardio' %}" class="action-btn" style="text-decoration: none;">Launch Routine</a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+</body>
+</html>

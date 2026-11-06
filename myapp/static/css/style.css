@@ -1,0 +1,412 @@
+/* ==========================================
+   1. GLOBAL STYLES & RESET
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #1e293b;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* ==========================================
+   2. NAVIGATION BAR
+   ========================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0f172a;
+    padding: 18px 8%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    color: #10b981;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #94a3b8;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    color: #10b981;
+}
+
+/* ==========================================
+   3. DASHBOARD GREETING BANNER & IMAGE BACKDROP
+   ========================================== */
+.welcome-banner {
+    margin-bottom: 30px;
+}
+
+.welcome-banner h1 {
+    font-size: 32px;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.welcome-banner p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+/* Premium Dashboard Banner Backdrop utilizing gym.jpg */
+.welcome-banner.gym-bg {
+    background-image: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.8)), url('../images/gym.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    padding: 35px 30px;
+    color: #ffffff;
+}
+
+.welcome-banner.gym-bg h1 {
+    color: #ffffff !important;
+}
+
+.welcome-banner.gym-bg p {
+    color: #cbd5e1 !important;
+}
+
+/* ==========================================
+   4. METRICS STAT CARDS ROW
+   ========================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+    border: 1px solid #e2e8f0;
+    border-top: 6px solid #cbd5e1;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card.calories { border-top-color: #ef4444; }
+.stat-card.streak { border-top-color: #f59e0b; }
+.stat-card.workout-time { border-top-color: #0ea5e9; }
+
+.stat-card h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.stat-value span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+/* ==========================================
+   5. TWO-COLUMN SPLIT CONTENT LAYOUT
+   ========================================== */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.dashboard-content-split {
+    display: grid;
+    grid-template-columns: 2.2fr 0.8fr;
+    gap: 35px;
+    margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-content-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+h2 {
+    font-size: 20px;
+    color: #0f172a;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* ==========================================
+   6. WORKOUT CATALOG GENERATOR STYLES
+   ========================================== */
+.workout-grid, .workout-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.workout-card, .catalog-card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.workout-card:hover, .catalog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.04);
+}
+
+.catalog-header {
+    height: 160px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-end;
+    background-size: cover;
+    background-position: center;
+}
+
+.catalog-header.img-strength {
+    background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.5)), url('../images/weights.jpg');
+}
+
+.catalog-header.img-cardio {
+    background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.5)), url('../images/cardio.jpg');
+}
+
+.catalog-header h3 {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.catalog-badge {
+    background-color: #10b981;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: auto;
+}
+
+.catalog-badge.HIIT {
+    background-color: #ef4444;
+}
+
+.catalog-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.catalog-body h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.catalog-body p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex-grow: 1;
+}
+
+.card-meta, .catalog-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.start-btn-link, .action-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.start-btn-link:hover, .action-btn:hover {
+    background-color: #059669;
+}
+
+/* ==========================================
+   7. COMPACT SIDEBAR LOGGING FORM
+   ========================================== */
+.log-section {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    height: fit-content;
+}
+
+.log-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #10b981;
+}
+
+.submit-btn {
+    background-color: #0f172a;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #1e293b;
+}
+
+/* ==========================================
+   8. CALORIE LOG TABLE STYLING
+   ========================================== */
+.table-container {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.intake-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14.5px;
+}
+
+.intake-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 700;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.intake-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #1e293b;
+}
+
+.intake-table tr:last-child td {
+    border-bottom: none;
+}
+
+.kcal-column {
+    font-weight: 700;
+    color: #ef4444;
+}
+
+.delete-log-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.delete-log-btn:hover {
+    color: #ef4444;
+    background-color: #fef2f2;
+}

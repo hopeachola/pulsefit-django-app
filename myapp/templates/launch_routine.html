@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseFit - Active Session</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Pulse<span>Fit</span></div>
+        <ul class="nav-links">
+            <li><a href="{% url 'fitness_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'workouts_catalog' %}">Workouts</a></li>
+            <li><a href="{% url 'calorie_log' %}">Calorie Log</a></li>
+        </ul>
+    </nav>
+
+    <!-- Workout Tracking Console Area -->
+    <main class="dashboard-container" style="max-width: 700px; margin: 50px auto;">
+        <div class="log-section" style="padding: 35px; max-width: 100%;">
+            
+            <header style="margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">
+                <span class="catalog-badge" style="background-color: #0ea5e9;">Active Session ⏱️</span>
+                <h1 style="font-size: 28px; margin-top: 15px; color: #0f172a; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 700;">{{ title }}</h1>
+                <p style="color: #64748b; margin-top: 4px; font-size: 15px;">Est. Duration: {{ duration }} Minutes</p>
+            </header>
+
+            <h3 style="font-size: 12px; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; margin-bottom: 15px; font-weight: 700;">Exercise Circuit Flow</h3>
+            
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; padding: 0;">
+                {% for exercise in exercises %}
+                <li style="background: #f8fafc; padding: 14px 18px; border-radius: 8px; border-left: 4px solid #10b981; font-weight: 600; color: #1e293b; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-size: 14.5px;">{{ exercise }}</span>
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #10b981; cursor: pointer;">
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- Form Submission Box targeting the active routine payload database logger -->
+            <form method="POST" action="{% url 'launch_routine' routine_id %}">
+                {% csrf_token %}
+                <button type="submit" class="submit-btn" style="display: block; text-align: center; width: 100%; border: none; font-size: 16px; cursor: pointer; padding: 14px; border-radius: 8px; font-weight: 600; transition: background 0.2s;">
+                    Complete Workout Session 🎉
+                </button>
+            </form>
+            
+        </div>
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseFit - Log In</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: #f8fafc;">
+
+    <main class="log-section" style="width: 100%; max-width: 400px; padding: 35px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+        <header style="text-align: center; margin-bottom: 25px;">
+            <h1 style="font-size: 28px; color: #0f172a; font-weight: 800; letter-spacing: -0.5px;">Pulse<span style="color: #10b981;">Fit</span></h1>
+            <p style="color: #64748b; font-size: 14.5px; margin-top: 4px;">Welcome back! Access your fitness board</p>
+        </header>
+
+        {% if error_message %}
+        <div style="background-color: #fef2f2; border: 1px solid #fee2e2; color: #ef4444; padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; text-align: center; font-weight: 600;">
+            {{ error_message }}
+        </div>
+        {% endif %}
+
+        <form class="log-form" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" placeholder="Enter your password" required>
+            </div>
+
+            <!-- Dynamic Credentials Recovery Link Component -->
+            <div style="text-align: right; margin-bottom: 20px;">
+                <a href="{% url 'recover_credentials' %}" style="font-size: 13px; color: #64748b; text-decoration: none; font-weight: 600; transition: color 0.2s ease;" onmouseover="this.style.color='#10b981'" onmouseout="this.style.color='#64748b'">Forgot Username or Password?</a>
+            </div>
+
+            <button type="submit" class="submit-btn" style="width: 100%; padding: 12px; font-size: 15px; cursor: pointer; margin-top: 10px;">Log In secure</button>
+        </form>
+
+        <footer style="text-align: center; margin-top: 20px; font-size: 13.5px; color: #64748b;">
+            New to PulseFit? <a href="{% url 'register' %}" style="color: #10b981; font-weight: 600; text-decoration: none;">Create an account</a>
+        </footer>
+    </main>
+
+</body>
+</html>

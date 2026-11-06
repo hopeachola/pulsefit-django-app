@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseFit - Calorie Log</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Loads local downloaded script file so it runs 100% offline -->
+    <script src="{% static 'js/chart.js' %}"></script>
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Pulse<span>Fit</span></div>
+        <ul class="nav-links">
+            <li><a href="{% url 'fitness_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'workouts_catalog' %}">Workouts</a></li>
+            <li><a href="{% url 'calorie_log' %}" class="active">Calorie Log</a></li>
+            <li><a href="{% url 'logout' %}" style="color: #ef4444;">Logout 🚪</a></li>
+        </ul>
+    </nav>
+
+    <!-- Calorie Tracker Workspace -->
+    <main class="dashboard-container">
+        
+        <header class="welcome-banner">
+            <h1>Calorie & Nutrition Log 🥑</h1>
+            <p>Track your daily food intake and monitor your balance indicators.</p>
+        </header>
+
+        <!-- Dynamic Balance Progress Header Cards -->
+        <section class="stats-grid">
+            <div class="stat-card streak">
+                <h3>Daily Target</h3>
+                <div class="stat-value">{{ daily_target }} <span>kcal</span></div>
+            </div>
+            <div class="stat-card calories">
+                <h3>Total Logged</h3>
+                <div class="stat-value">{{ total_logged }} <span>kcal</span></div>
+            </div>
+            <div class="stat-card workout-time">
+                <h3>Remaining</h3>
+                <div class="stat-value">{{ remaining_calories }} <span>kcal</span></div>
+            </div>
+        </section>
+
+        <!-- Main Workspace Split Layout -->
+        <div class="dashboard-content-split">
+            
+            <!-- Left Side: Interactive Chart Engine + Logged Items History List -->
+            <section class="log-history-section">
+                
+                <!-- Premium Analytics Chart Component Frame -->
+                <div class="table-container" style="padding: 24px; margin-bottom: 30px;">
+                    <h2 style="font-size: 14px; margin-bottom: 15px; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Caloric Analytics Curve</h2>
+                    
+                    <!-- Safe Data Badges: Stores backend text out of the script tag to stop syntax errors -->
+                    <div id="chart-data-bridge" 
+                         data-labels="{% for date in chart_dates %}{{ date }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                         data-intakes="{% for intake in chart_intakes %}{{ intake }}{% if not forloop.last %},{% endif %}{% endfor %}"
+                         data-target="{{ daily_target|default:1850 }}"
+                         data-total="{{ total_logged|default:0 }}"
+                         style="display: none;">
+                    </div>
+
+                    <div style="position: relative; height: 260px; width: 100%;">
+                        <canvas id="calorieChart"></canvas>
+                    </div>
+                </div>
+
+                <h2>Today's Intake History</h2>
+                <div class="table-container">
+                    <table class="intake-table">
+                        <thead>
+                            <tr>
+                                <th>Meal / Food Item</th>
+                                <th>Calories</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                            <tr>
+                                <td><strong>Logged:</strong> {{ log.food_item }}</td>
+                                <td class="kcal-column">{{ log.calories }} kcal</td>
+                                <td>
+                                    <a href="{% url 'delete_calorie_log' log.id %}" class="delete-log-btn" style="text-decoration: none;">&times;</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: #64748b; padding: 30px;">
+                                    No food logged today yet. Get started on the right panel!
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Right Side: Compact Intake Entry Form -->
+            <aside class="log-section">
+                <h2>Log Food Intake</h2>
+                <form class="log-form" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_food_item">Food Item Name</label>
+                        {{ form.food_item }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_calories">Calories (kcal)</label>
+                        {{ form.calories }}
+                    </div>
+                    <button type="submit" class="submit-btn">Add To Log</button>
+                </form>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- 100% Clean Javascript Layout with zero conflicting template syntax tags inside -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const canvasEl = document.getElementById('calorieChart');
+            const dataBridge = document.getElementById('chart-data-bridge');
+            if (!canvasEl || !dataBridge) return;
+            
+            const ctx = canvasEl.getContext('2d');
+            
+            // Read data safely from HTML properties
+            const rawLabels = dataBridge.getAttribute('data-labels');
+            const rawIntakes = dataBridge.getAttribute('data-intakes');
+            const targetLimit = Number(dataBridge.getAttribute('data-target'));
+            const totalLogged = Number(dataBridge.getAttribute('data-total'));
+
+            const chartLabels = rawLabels ? rawLabels.split(',') : ["Today"];
+            const chartData = rawIntakes ? rawIntakes.split(',').map(Number) : [totalLogged];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'Logged Intake (kcal)',
+                            data: chartData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.06)',
+                            borderWidth: 3,
+                            tension: 0.3,
+                            fill: true,
+                            pointBackgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'Target Limit',
+                            data: Array(chartLabels.length).fill(targetLimit),
+                            borderColor: '#ef4444',
+                            borderDash: 5, // FIXED: Added proper spacing values inside the array layout parameters
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: true, position: 'top', labels: { boxWidth: 12, font: { weight: 600 } } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            title: { display: true, text: 'Calories (kcal)', font: { size: 12, weight: 600 } }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
