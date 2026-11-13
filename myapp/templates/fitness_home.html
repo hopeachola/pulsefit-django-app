@@ -5,108 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PulseFit - Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- ⚡ FIXED: Load true Bootstrap CSS straight from the cloud CDN -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"></link>
 </head>
-<body>
+<body class="bg-light">
 
     <!-- 1. Navigation Header -->
-    <nav class="navbar">
-        <div class="logo">Pulse<span>Fit</span></div>
-        <ul class="nav-links">
-            <li><a href="{% url 'fitness_home' %}" class="active">Dashboard</a></li>
-            <li><a href="{% url 'workouts_catalog' %}">Workouts</a></li>
-            <li><a href="{% url 'calorie_log' %}">Calorie Log</a></li>
-                    <!-- Append this list element right before </ul> inside your navbar headers -->
-        <li><a href="{% url 'logout' %}" style="color: #ef4444;">Logout 🚪</a></li>
-        
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold fs-3" href="#">Pulse<span class="text-success">Fit</span></a>
+            <div class="navbar-nav ms-auto gap-3 flex-row">
+                <a class="nav-link active fw-semibold text-success" href="{% url 'fitness_home' %}">Dashboard</a>
+                <a class="nav-link fw-semibold text-white-50" href="{% url 'workouts_catalog' %}">Workouts</a>
+                <a class="nav-link fw-semibold text-white-50" href="{% url 'calorie_log' %}">Calorie Log</a>
+                <a class="nav-link fw-semibold text-danger ms-2" href="{% url 'logout' %}">Logout 🚪</a>
+            </div>
+        </div>
     </nav>
 
-    <!-- 2. Main Workspace -->
-    <main class="container">
+    <!-- 2. Main Workspace Container -->
+    <div class="container py-5">
         
-        <!-- Dashboard Greeting Section with Gym Image Backdrop Mask -->
-        <header class="welcome-banner gym-bg">
-            <h1>Welcome Back! 👋</h1>
-            <p>Consistency is key. Let's smash today's targets!</p>
-        </header>
-
-        <!-- Metrics Side-by-Side Live Dynamic Row Component -->
-        <section class="stats-grid">
-            <div class="stat-card calories">
-                <h3>Calories Burned</h3>
-                <div class="stat-value">{{ total_burned }} <span>kcal</span></div>
+        <!-- Dashboard Greeting Section with Your Local Gym Image Background -->
+        <div class="card border-0 rounded-4 overflow-hidden mb-4 shadow-sm position-relative text-white">
+            <!-- 📸 FIXED: Uses your exact local gym.jpg file! -->
+            <img src="{% static 'images/gym.jpg' %}" class="card-img rounded-0" style="height: 220px; object-fit: cover; filter: brightness(35%);" alt="Gym">
+            <div class="card-img-overlay d-flex flex-column justify-content-center p-4">
+                <h1 class="fw-bold mb-1">Welcome Back! 👋</h1>
+                <p class="text-white-50 mb-0 fs-5">Consistency is key. Let's smash today's targets!</p>
             </div>
+        </div>
 
-            <div class="stat-card streak">
-                <h3>Daily Streak</h3>
-                <div class="stat-value">{{ daily_streak }} <span>days 🔥</span></div>
+        <!-- Metrics Dynamic Row Component -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 border-top border-danger border-5 rounded-3 shadow-sm p-4">
+                    <h6 class="text-uppercase fw-bold text-muted small mb-2">Calories Burned</h6>
+                    <h2 class="fw-bold text-dark m-0">{{ total_burned }} <span class="fs-6 fw-normal text-muted">kcal</span></h2>
+                </div>
             </div>
-
-            <div class="stat-card workout-time">
-                <h3>Active Time</h3>
-                <div class="stat-value">{{ active_time }} <span>mins ⏱️</span></div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 border-top border-warning border-5 rounded-3 shadow-sm p-4">
+                    <h6 class="text-uppercase fw-bold text-muted small mb-2">Daily Streak</h6>
+                    <h2 class="fw-bold text-dark m-0">{{ daily_streak }} <span class="fs-6 fw-normal text-muted">days 🔥</span></h2>
+                </div>
             </div>
-        </section>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 border-top border-info border-5 rounded-3 shadow-sm p-4">
+                    <h6 class="text-uppercase fw-bold text-muted small mb-2">Active Time</h6>
+                    <h2 class="fw-bold text-dark m-0">{{ active_time }} <span class="fs-6 fw-normal text-muted">mins ⏱️</span></h2>
+                </div>
+            </div>
+        </div>
 
         <!-- Split Content Sections -->
-        <div class="dashboard-content-split">
+        <div class="row g-4">
             
-            <!-- Left Side: Recommendation Library Quick View -->
-            <section class="workout-section">
-                <h2>Recommended Workouts</h2>
-                <div class="workout-grid">
+            <!-- Left Side: Workout Library Quick View -->
+            <div class="col-lg-8">
+                <h3 class="fw-bold fs-5 text-dark mb-4">Recommended Workouts</h3>
+                <div class="row g-4">
                     
-                    <div class="workout-card">
-                        <div class="catalog-header img-strength">
-                            <h3>Strength Base</h3>
-                        </div>
-                        <div class="catalog-body">
-                            <p>Master fundamental compound movements focusing on form, power delivery, and core stability.</p>
-                            <div class="card-meta">
-                                <span>⏱️ 45 mins</span>
-                                <span>🔥 320 kcal</span>
+                    <div class="col-md-6">
+                        <div class="card border-0 rounded-4 overflow-hidden shadow-sm h-100">
+                            <!-- 📸 FIXED: Uses your exact local weights.jpg file! -->
+                            <img src="{% static 'images/weights.jpg' %}" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Strength">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold">Strength Base</h5>
+                                <p class="card-text text-muted small flex-grow-1">Master fundamental compound movements focusing on form, power delivery, and core stability.</p>
+                                <div class="d-flex gap-3 text-secondary small fw-semibold mb-3">
+                                    <span>⏱️ 45 mins</span>
+                                    <span>🔥 320 kcal</span>
+                                </div>
+                                <a href="{% url 'workouts_catalog' %}" class="btn btn-success w-100 fw-semibold rounded-3 py-2">View Catalog</a>
                             </div>
-                            <a href="{% url 'workouts_catalog' %}" class="start-btn-link">View Catalog</a>
                         </div>
                     </div>
 
-                    <div class="workout-card">
-                        <div class="catalog-header img-cardio">
-                            <h3>Cardio Endurance</h3>
-                        </div>
-                        <div class="catalog-body">
-                            <p>High-volume circuit intervals alternating aerobic sprints with dynamic core recovery phases.</p>
-                            <div class="card-meta">
-                                <span>⏱️ 25 mins</span>
-                                <span>🔥 410 kcal</span>
+                    <div class="col-md-6">
+                        <div class="card border-0 rounded-4 overflow-hidden shadow-sm h-100">
+                            <!-- 📸 FIXED: Uses your exact local cardio.jpg file! -->
+                            <img src="{% static 'images/cardio.jpg' %}" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Cardio">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <h5 class="card-title fw-bold">Cardio Endurance</h5>
+                                <p class="card-text text-muted small flex-grow-1">High-volume circuit intervals alternating aerobic sprints with dynamic core recovery phases.</p>
+                                <div class="d-flex gap-3 text-secondary small fw-semibold mb-3">
+                                    <span>⏱️ 25 mins</span>
+                                    <span>🔥 410 kcal</span>
+                                </div>
+                                <a href="{% url 'workouts_catalog' %}" class="btn btn-success w-100 fw-semibold rounded-3 py-2">View Catalog</a>
                             </div>
-                            <a href="{% url 'workouts_catalog' %}" class="start-btn-link">View Catalog</a>
                         </div>
                     </div>
 
                 </div>
-            </section>
+            </div>
 
             <!-- Right Side: Intake Logging Quick Entry Module -->
-            <aside class="log-section">
-                <h2>Quick Log Intake</h2>
-                <form class="log-form" method="POST" action="{% url 'calorie_log' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="food_item">Food Item / Meal</label>
-                        <input type="text" id="food_item" name="food_item" placeholder="e.g., Rice and chicken..." required>
-                    </div>
-                    <div class="form-group">
-                        <label for="calories">Calories (kcal)</label>
-                        <input type="number" id="calories" name="calories" placeholder="e.g., 450" required>
-                    </div>
-                    <button type="submit" class="submit-btn">Add to Log</button>
-                </form>
-            </aside>
+            <div class="col-lg-4">
+                <div class="card border-0 rounded-4 shadow-sm p-4 bg-white">
+                    <h3 class="fw-bold fs-5 text-dark mb-4">Quick Log Intake</h3>
+                    <form method="POST" action="{% url 'calorie_log' %}" class="d-flex flex-column gap-3">
+                        {% csrf_token %}
+                        <div>
+                            <label for="food_item" class="form-label small fw-semibold text-secondary mb-1">Food Item / Meal</label>
+                            <input type="text" class="form-control rounded-3 py-2" id="food_item" name="food_item" placeholder="e.g., Rice and chicken..." required>
+                        </div>
+                        <div>
+                            <label for="calories" class="form-label small fw-semibold text-secondary mb-1">Calories (kcal)</label>
+                            <input type="number" class="form-control rounded-3 py-2" id="calories" name="calories" placeholder="e.g., 450" required>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 fw-semibold rounded-3 py-2 mt-2">Add to Log</button>
+                    </form>
+                </div>
+            </div>
 
         </div>
-    </main>
+    </div>
 
 </body>
 </html>
